@@ -53,6 +53,7 @@ def print_list(head):
     while current:
         print current.value, " ",
         current = current.next
+    print
 
 
 def count(head, target):
@@ -70,14 +71,47 @@ def get_nth(head, n):
     """
     Returns the data stored in the node at the index n position.
     """
+    if head is None: raise Exception
+
+    count, current = 0, head
+    while current and count < n:
+        count += 1
+        current = current.next
+
+    if current is None: raise Exception
+
+    return current.value
+
+
+def insert_nth(head, n, value):
+    """
+    Insert a new node at n index within a list. The new node should be
+    inserted so as to be at that index.
+    """
+    if head is None: raise Exception
+
+    node = ListNode(value)
+
+    if n == 0:
+        node.next = head
+        return node
+
+    count, current = 0, head
+    while current and count < n - 1:
+        count += 1
+        current = current.next
+    if current is None: raise Exception
+
+    node.next = current.next
+    current.next = node
+    return head
 
 
 def test():
-    head = build_head(5)
-    print_list(head)
     head = build_tail(5)
     print_list(head)
-    print count(head, 0)
+    head = insert_nth(head, 1, 10)
+    print_list(head)
 
 
 if __name__ == '__main__': test()
