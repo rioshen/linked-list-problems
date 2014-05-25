@@ -91,7 +91,6 @@ def insert_nth(head, n, value):
     if head is None: raise Exception
 
     node = ListNode(value)
-
     if n == 0:
         node.next = head
         return node
@@ -105,6 +104,38 @@ def insert_nth(head, n, value):
     node.next = current.next
     current.next = node
     return head
+
+
+def sorted_insert(head, target):
+    """
+    Inserts the node into the correct sorted position in the list.
+    """
+    dummy = ListNode(-1)
+    current = dummy
+    dummy.next = head
+
+    while current.next is not None and current.next.value < target:
+        current = current.next
+
+    node = ListNode(target)
+    node.next = current.next
+    current.next = node
+
+    return dummy.next
+
+
+def append(a, b):
+    """
+    Appends list b onto the end of list a.
+    """
+    if a is None: return b
+
+    current = a
+    while current.next is not None:
+        current = current.next
+    current.next = b
+
+    return a
 
 
 def test():
