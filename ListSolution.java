@@ -254,6 +254,21 @@ public class ListSolution {
         return dummy.next;
     }
 
+    public static ListNode reverse(ListNode head) {
+        ListNode result = null;
+        ListNode current = head;
+        ListNode next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = result;
+            result = current;
+            current = next;
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) {
         ListNode head = new ListNode(1, new ListNode(1, new ListNode(1, new ListNode(1))));
         removeDuplicates(head);
