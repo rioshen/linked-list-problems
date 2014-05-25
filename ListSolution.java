@@ -6,6 +6,11 @@ class ListNode {
         this.value = value;
         next = null;
     }
+
+    public ListNode(int value, ListNode next) {
+        this.value = value;
+        this.next = next;
+    }
 }
 
 public class ListSolution {
@@ -150,9 +155,6 @@ public class ListSolution {
 
     /**
      * Appends the second list onto the end of the first list.
-     * @param a
-     * @param b
-     * @return
      */
     public static ListNode append(ListNode a, ListNode b) {
         if (a == null) { //special case if a is empty
@@ -169,6 +171,10 @@ public class ListSolution {
         return a;
     }
 
+    /**
+     * Deletes any duplicate nodes from the sorted list.
+     * @param head The head node of the linked list.
+     */
     public static void removeDuplicates(ListNode head) {
         if (head == null) {
             return;
@@ -185,9 +191,73 @@ public class ListSolution {
         }
     }
 
+    /**
+     * Divides up a list's nodes to make two smaller lists. All the even
+     * elements should go in the first list, and the odd elements in the second.
+     * @param head The head node of the linked list.
+     * @return An two elements array that contains the smaller lists.
+     */
+    public static ListNode[] alternatingSplit(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode evenHead = null;
+        ListNode oddHead = null;
+        ListNode current = head;
+        while (current != null) {
+            evenHead = alternatingBuild(current, evenHead);
+            current = current.next;
+            if (current != null) {
+                oddHead = alternatingBuild(current, oddHead);
+            }
+            current = current.next;
+        }
+
+        ListNode[] result = new ListNode[2];
+        result[0] = evenHead;
+        result[1] = oddHead;
+
+        return result;
+    }
+
+    private static ListNode alternatingBuild(ListNode head, ListNode node) {
+        if (node == null) {
+            return null;
+        }
+
+        head.next = node;
+        return head;
+    }
+
+    public static ListNode mergeSortedLists(ListNode a, ListNode b) {
+        ListNode dummy = new ListNode(-1);
+        ListNode last = dummy;
+
+        while (a != null && b != null) {
+            if (a.value < b.value) {
+                last.next = a;
+                a = a.next;
+            } else {
+                last.next = b;
+                b = b.next;
+            }
+            last = last.next;
+        }
+
+        if (a != null) {
+            last.next = a;
+        } else {
+            last.next = b;
+        }
+
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
-        ListNode head = ListUtil.buildTail(3);
-        head = sortedInsertDummy(head, 3);
+        ListNode head = new ListNode(1, new ListNode(1, new ListNode(1, new ListNode(1))));
+        removeDuplicates(head);
         ListUtil.printList(head);
+
     }
 }
